@@ -31,63 +31,69 @@ cost = {
 }
 
 
+# Breadth First Search
 def bfs(start, goal):
-    queue = deque([[start]])
+    queue = deque()
+    queue.append([start])
     visited = set()
 
     while queue:
         path = queue.popleft()
-        node = path[-1]
+        current = path[-1]
 
-        if node == goal:
+        if current == goal:
             return path
 
-        if node not in visited:
-            visited.add(node)
+        if current in visited:
+            continue
 
-            for next_node in graph[node]:
-                queue.append(path + [next_node])
+        visited.add(current)
+
+        for neighbour in graph[current]:
+            queue.append(path + [neighbour])
 
     return None
 
 
+# Uniform Cost Search
 def ucs(start, goal):
     queue = [(0, [start])]
     visited = set()
 
     while queue:
-        current_cost, path = heapq.heappop(queue)
-        node = path[-1]
+        total_cost, path = heapq.heappop(queue)
+        current = path[-1]
 
-        if node == goal:
-            return path, current_cost
+        if current == goal:
+            return path, total_cost
 
-        if node in visited:
+        if current in visited:
             continue
 
-        visited.add(node)
+        visited.add(current)
 
-        for next_node in graph[node]:
-            new_cost = current_cost + cost[node][next_node]
-            heapq.heappush(queue, (new_cost, path + [next_node]))
+        for neighbour in graph[current]:
+            new_cost = total_cost + cost[current][neighbour]
+            heapq.heappush(queue, (new_cost, path + [neighbour]))
 
     return None, None
 
 
-def dls(node, goal, depth, path):
-    if node == goal:
+# Depth Limited Search
+def dls(current, goal, depth, path):
+    if current == goal:
         return path
 
     if depth == 0:
         return None
 
-    for next_node in graph[node]:
-        if next_node not in path:
+    for neighbour in graph[current]:
+        if neighbour not in path:
             result = dls(
-                next_node,
+                neighbour,
                 goal,
                 depth - 1,
-                path + [next_node]
+                path + [neighbour]
             )
 
             if result:
@@ -96,6 +102,7 @@ def dls(node, goal, depth, path):
     return None
 
 
+# Iterative Deepening Search
 def ids(start, goal):
     depth = 0
 
@@ -111,12 +118,11 @@ def ids(start, goal):
 start = "A"
 goal = "L"
 
-bfs_path = bfs(start, goal)
-ucs_path, minimum_cost = ucs(start, goal)
-ids_path = ids(start, goal)
+bfs_result = bfs(start, goal)
+ucs_result, ucs_cost = ucs(start, goal)
+ids_result = ids(start, goal)
 
-print("BFS Path:", bfs_path)
-print("UCS Path:", ucs_path)
-print("Minimum Cost:", minimum_cost)
-print("IDS Path:", ids_path)
-
+print("BFS Path:", bfs_result)
+print("UCS Path:", ucs_result)
+print("Minimum Cost:", ucs_cost)
+print("IDS Path:", ids_result)
