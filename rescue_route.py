@@ -120,37 +120,3 @@ print("UCS Path:", ucs_path)
 print("Minimum Cost:", minimum_cost)
 print("IDS Path:", ids_path)
 
-readme = '''# AI Practical Task – Emergency Rescue Route Planner
-
-## Day-1
-
-### Objective
-
-#Develop a Python-based Emergency Rescue Route Planner where an emergency rescue robot acts as an intelligent agent.
-
-#The robot starts from location **A (Entrance)** and must reach **L (Patient Location)** using different search algorithms.
-
-## Environment
-
-- A = Entrance
-- B, C, D, E, F, G, H, I, J, K = Intermediate locations
-- L = Patient location
-
-## Graph
-
-```python
-graph = {
-    "A": ["B", "C"],
-    "B": ["D", "E"],
-    "C": ["F", "G"],
-    "D": ["H"],
-    "E": ["H"],
-    "F": ["I"],
-    "G": ["J"],
-    "H": ["K"],
-    "I": ["K"],
-    "J": ["K"],
-    "K": ["L"],
-    "L": []
-}
-'''
